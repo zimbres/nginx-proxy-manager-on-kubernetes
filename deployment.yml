@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: npm
+  namespace: npm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: npm
+  template:
+    metadata:
+      labels:
+        app: npm
+    spec:
+      volumes:
+        - name: npm-data
+          persistentVolumeClaim:
+            claimName: npm-data
+        - name: npm-letsencrypt
+          persistentVolumeClaim:
+            claimName: npm-letsencrypt
+      containers:
+      - name: npm
+        image: jc21/nginx-proxy-manager:latest
+        ports:
+          - containerPort: 81
+          - containerPort: 80
+          - containerPort: 443
+        volumeMounts:
+        - mountPath: "/data"
+          name: npm-data
+        - mountPath: "/etc/letsencrypt"
+          name: npm-letsencrypt

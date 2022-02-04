@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: npm-proxy
+  namespace: npm
+spec:
+  ports:
+  - name: proxy
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  - name: proxy-ssl
+    port: 443
+    protocol: TCP
+    targetPort: 443
+  selector:
+    app: npm
+  type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: npm-admin-ui
+  namespace: npm
+spec:
+  ports:
+  - name: admin-ui
+    port: 81
+    protocol: TCP
+    targetPort: 81
+  selector:
+    app: npm
