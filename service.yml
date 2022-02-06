@@ -15,6 +15,7 @@ spec:
     targetPort: 443
   selector:
     app: npm
+  externalTrafficPolicy: Local
   type: LoadBalancer
 
 ---
